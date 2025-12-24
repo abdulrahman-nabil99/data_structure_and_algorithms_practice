@@ -79,6 +79,58 @@ public:
         }
         return max;
     }
+    const Node<T>* search(const T& item) const {
+        const Node<T>* curr = head;
+        while (curr) {
+            if (curr->data == item)
+                return curr;
+            curr = curr->next;
+        }
+        return nullptr;
+    }
+
+    void insert(T item, int index) {
+        if (index < 0) return;
+        Node<T>* curr = head;
+        Node<T>* previous = nullptr;
+        int i = 0;
+        int size = count();
+        while (i < index && i < size) {
+            previous = curr;
+            curr = curr->next;
+            i++;
+        }
+        if (i == 0) {
+            Node<T>* newNode = new Node<T>{ item, curr };
+            head = newNode;
+        }
+        else {
+            Node<T>* newNode = new Node<T>{ item, curr };
+            previous->next = newNode;
+        }
+    }
+
+    void deleteNode(T item) {
+        if (!head) return;
+
+        Node<T>* curr = head;
+        Node<T>* previous = nullptr;
+
+        while (curr) {
+            if (curr->data == item) {
+                if (!previous) {
+                    head = curr->next;
+                }
+                else {
+                    previous->next = curr->next;
+                }
+                delete curr;
+                return;
+            }
+            previous = curr;
+            curr = curr->next;
+        }
+    }
 };
 
 
@@ -93,11 +145,25 @@ void main() {
     //head->data = 5;
     //head->next = new Node<int>;
     //head->next->data = 6;
-    linkedList->add_items(items, 5);
+    //linkedList->add_items(items, 5);
     linkedList->display();
-    cout << "counte = " << linkedList->count() << endl;
+    cout << "count = " << linkedList->count() << endl;
     cout << "sum = " << linkedList->sum() << endl;
     cout << "max = " << linkedList->max() << endl;
+    cout << "search(44) = " << (linkedList->search(44)? linkedList->search(44)->data : -1) << endl;
+    cout << "insert(3,0) " << endl;
+    linkedList->insert(3, 0);
+    linkedList->display();
+    cout << "insert(7,3) " << endl;
+    linkedList->insert(7, 3);
+    linkedList->display();
+    cout << "insert(102,10) " << endl;
+    linkedList->insert(102, 10);
+    linkedList->display();
+    cout << "insert(104,8) " << endl;
+    linkedList->insert(104, 7);
+    linkedList->display();
+
     delete linkedList;
     return;
 }
