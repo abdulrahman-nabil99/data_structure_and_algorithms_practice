@@ -40,12 +40,13 @@ public:
     }
 
     void display() {
+        if (!head) return;
         Node<T>* curr = head;
         int i = 1;
-        while (curr) {
+        do {
             std::cout << "Node #" << i++ << ": " << curr->data << std::endl;
             curr = curr->next;
-        }
+        } while (curr && curr != head);
     }
 
     int count() {
@@ -131,6 +132,30 @@ public:
             curr = curr->next;
         }
     }
+
+    bool isLinear() {
+        if (!head || !head->next) return true;
+        Node<T>* singlePtr = head;
+        Node<T>* doublePtr = head;
+
+        do {
+            singlePtr = singlePtr->next;
+            doublePtr = doublePtr->next;
+            doublePtr = doublePtr ? doublePtr->next : doublePtr;
+        } while (singlePtr && doublePtr && singlePtr != doublePtr);
+        return singlePtr != doublePtr;
+    }
+
+    bool isCircular(){
+        if (!head) return false;
+        Node<T>* current = head;
+        while (current) {
+            current = current->next;
+            if (current == head)
+                return true;
+        }
+        return false;
+    }
 };
 
 
@@ -154,16 +179,16 @@ void main() {
     cout << "insert(3,0) " << endl;
     linkedList->insert(3, 0);
     linkedList->display();
-    cout << "insert(7,3) " << endl;
-    linkedList->insert(7, 3);
+    //cout << "insert(7,3) " << endl;
+    //linkedList->insert(7, 3);
     linkedList->display();
-    cout << "insert(102,10) " << endl;
-    linkedList->insert(102, 10);
+    //cout << "insert(102,10) " << endl;
+    //linkedList->insert(102, 10);
     linkedList->display();
-    cout << "insert(104,8) " << endl;
-    linkedList->insert(104, 7);
+    //cout << "insert(104,8) " << endl;
+    //linkedList->insert(104, 7);
     linkedList->display();
-
+    cout << "IsLinear() = " << linkedList->isLinear() << endl;
     delete linkedList;
     return;
 }
