@@ -4,6 +4,12 @@
 using namespace std;
 
 template<class T>
+struct Node {
+    T value;
+    Node<T>* next;
+};
+
+template<class T>
 class ArrayStack {
 private:
     int _size = 0;
@@ -110,10 +116,108 @@ public:
 
 };
 
+template<class T>
+class LinkedListStack {
+private:
+    Node<T>* _top;
+
+public:
+    #pragma region CTORS
+    LinkedListStack() : _top(nullptr) {}
+
+    ~LinkedListStack() {
+        while (_top) {
+            Node<T>* temp = _top;
+            _top = _top->next;
+            delete temp;
+        }
+    }
+
+    LinkedListStack(const LinkedListStack&) = delete;
+    LinkedListStack& operator=(const LinkedListStack&) = delete;
+    #pragma endregion
+
+    #pragma region Methods
+    bool push(const T& element) {
+        Node<T>* item = new(std::nothrow) Node<T>;
+        if (!item) return false;
+
+        item->value = element;
+        item->next = _top;
+        _top = item;
+
+        return true;
+    }
+
+    bool pop(T& outValue) {
+        if (isEmpty()) return false;
+
+        Node<T>* item = _top;
+        _top = _top->next;
+
+        outValue = item->value;
+        delete item;
+
+        return true;
+    }
+
+    bool isFull() const {
+        Node<T>* item = new(std::nothrow) Node<T>;
+        if (!item) return true;
+        delete item;
+        return false;
+    }
+
+    bool isEmpty() const{
+        return _top == nullptr;
+    }
+
+    bool peek(T& outValue) const {
+        if (isEmpty())
+            return false;
+
+        outValue = _top->value;
+        return true;
+    }
+
+    bool peekAt(int position, T& outValue) const {
+        if (position <= 0) return false;
+
+        Node<T>* current = _top;
+        int i = 1;
+
+        while (current) {
+            if (i == position) {
+                outValue = current->value;
+                return true;
+            }
+            current = current->next;
+            i++;
+        }
+
+        return false;
+    }
+    void display() const {
+        if (isEmpty()) {
+            cout << "Stack is empty\n";
+            return;
+        }
+        Node<T>* current = _top;
+        cout << "[Top] ";
+        while (current) {
+            cout << current->value;
+            current = current->next;
+            if (current)
+                cout << " -> ";
+        }
+        cout << " [Bottom]\n";
+    }
+    #pragma endregion
+};
 
 int main()
 {
-    cout << "STACK!\n";
+    cout << "ARRAY STACK!\n";
     ArrayStack<int> stack(5);
     stack.push(1);
     stack.push(3);
@@ -121,5 +225,18 @@ int main()
     stack.push(6);
     stack.push(7);
     stack.display();
+
+    cout << "LINKEDLIST STACK!\n";
+    LinkedListStack<int> linkedStack;
+    linkedStack.push(1);
+    linkedStack.push(3);
+    linkedStack.push(5);
+    linkedStack.push(6);
+    int value;
+    linkedStack.pop(value);
+    linkedStack.push(7);
+    linkedStack.display();
+    linkedStack.peekAt(3, value);
+    cout << "PEAK AT (3) = " << value << endl;
 }
 
