@@ -215,6 +215,8 @@ public:
     #pragma endregion
 };
 
+bool parentheses_matching(const char[], int length);
+
 int main()
 {
     cout << "ARRAY STACK!\n";
@@ -238,5 +240,39 @@ int main()
     linkedStack.display();
     linkedStack.peekAt(3, value);
     cout << "PEAK AT (3) = " << value << endl;
+
+    char data[] = "(6 + 1) * (5 + 3)";
+    cout << "parentheses_matching(\"" << data << "\") = " << parentheses_matching(data, strlen(data)) << endl;
+
+    char data2[] = "((6 + 1) * (5 + 3)";
+    cout << "parentheses_matching(\"" << data2 << "\") = " << parentheses_matching(data2, strlen(data2)) << endl;
+
+
+    char data3[] = "([{}}])";
+    cout << "parentheses_matching(\"" << data3 << "\") = " << parentheses_matching(data3, strlen(data3)) << endl;
+
+    char data4[] = "([{}])";
+    cout << "parentheses_matching(\"" << data4 << "\") = " << parentheses_matching(data4, strlen(data4)) << endl;
+
 }
 
+bool parentheses_matching(const char data[], int length)
+{
+    LinkedListStack<char> stack;
+    for (int i = 0; i < length; i++) {
+        if (data[i] == '(' || data[i] == '[' || data[i] == '{') {
+            stack.push(data[i]);
+        }
+        else if (data[i] == ')' || data[i] == ']' || data[i] == '}') {
+            char item;
+            if (!stack.pop(item) || 
+                (data[i] == ')' && item != '(')||
+                (data[i] == ']' && item != '[')||
+                (data[i] == '}' && item != '{')
+                ) {
+                return false;
+            }
+        }
+    }
+    return stack.isEmpty();
+}
