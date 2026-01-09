@@ -217,6 +217,24 @@ public:
 
 bool parentheses_matching(const char[], size_t);
 
+char* infix_to_postfix(const char[], size_t);
+
+int evaluate_postfix(char*, size_t);
+
+template<class T>
+void display_array_then_delete(T* array, size_t size) {
+    if (!array) return;
+
+    for (size_t i = 0; i < size; i++) {
+        cout << array[i];
+    }
+    cout << endl;
+    int total = evaluate_postfix(array, strlen(array));
+    delete[] array;
+}
+
+
+
 int main()
 {
     cout << "ARRAY STACK!\n";
@@ -254,6 +272,53 @@ int main()
     char data4[] = "([{}])\0";
     cout << "parentheses_matching(\"" << data4 << "\") = " << parentheses_matching(data4, strlen(data4)) << endl;
 
+
+    //char infix[] = "a+b*c-d/e";
+    //char* postfix = infix_to_postfix(infix, strlen(infix));
+    //cout << "Result for a+b*c-d/e: ";
+    //display_array_then_delete(postfix, strlen(postfix));
+
+
+    //char infix2[] = "a+b+c";
+    //char* postfix2 = infix_to_postfix(infix2, strlen(infix2));
+    //cout << "Result for a+b+c: ";
+    //display_array_then_delete(postfix2, strlen(postfix2));
+
+    //char infix3[] = "a*b/c+d";
+    //char* postfix3 = infix_to_postfix(infix3, strlen(infix3));
+    //cout << "Result for a*b/c+d: ";
+    //display_array_then_delete(postfix3, strlen(postfix3));
+
+    //char infix4[] = "a+b*c+d*e";
+    //char* postfix4 = infix_to_postfix(infix4, strlen(infix4));
+    //cout << "Result for a+b*c+d*e: ";
+    //display_array_then_delete(postfix4, strlen(postfix4));
+
+    //char infix5[] = "a^(b+c*d)-e";
+    //char* postfix5 = infix_to_postfix(infix5, strlen(infix5));
+    //cout << "Result for a^(b+c*d)-e: ";
+    //display_array_then_delete(postfix5, strlen(postfix5));
+
+    //char infix6[] = "a^b^c";
+    //char* postfix6 = infix_to_postfix(infix6, strlen(infix6));
+    //cout << "Result for a^b^c: ";
+    //display_array_then_delete(postfix6, strlen(postfix6));
+
+    //char infix7[] = "(a^b)^c";
+    //char* postfix7 = infix_to_postfix(infix7, strlen(infix7));
+    //cout << "Result for (a^b)^c: ";
+    //display_array_then_delete(postfix7, strlen(postfix7));
+
+    char infix7[] = "(2^3)^4";
+    char* postfix7 = infix_to_postfix(infix7, strlen(infix7));
+    cout << "Result for (2^3)^4: ";
+    display_array_then_delete(postfix7, strlen(postfix7));
+
+
+    char infix8[] = "(9^2)^2";
+    char* postfix8 = infix_to_postfix(infix8, strlen(infix8));
+    cout << "Result for (2^3)^4: ";
+    display_array_then_delete(postfix8, strlen(postfix8));
 }
 
 bool parentheses_matching(const char data[], size_t size)
@@ -275,4 +340,117 @@ bool parentheses_matching(const char data[], size_t size)
         }
     }
     return stack.isEmpty();
+}
+
+bool is_operand(char item) {
+    return item != '+' &&
+        item != '-' &&
+        item != '*' &&
+        item != '/' &&
+        item != '(' &&
+        item != ')' &&
+        item != '^';
+}
+
+int op_pre_in(char op) {
+    if (op == '+' || op == '-') return 2;
+    if (op == '*' || op == '/') return 4;
+    if (op == '^') return 5;
+    if (op == '(') return 0;
+    return 0;
+}
+
+int op_pre_out(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 3;
+    if (op == '^') return 6;
+    if (op == '(') return 7;
+    if (op == ')') return 0;
+    return 0;
+}
+
+int calc_value(int right, int left, char op) {
+    int result;
+    switch (op) {
+    case '+':
+        result = left + right;
+        break;
+    case '-':
+        result = left - right;
+        break;
+    case '*':
+        result = left * right;
+        break;
+    case '/':
+        if (right == 0) return 0;
+        result = left / right;
+        break;
+    case '^':
+        result = pow(left, right);
+        break;
+    default: result = 0;
+    }
+    return result;
+}
+
+char* infix_to_postfix(const char infix[], size_t size) {
+    if (size <= 0) return nullptr;
+    LinkedListStack<char> stk;
+    char *postfix = new char[size + 1];
+    int i = 0, j = 0;
+
+    while (i < size) {
+        if (is_operand(infix[i])) {
+            postfix[j++] = infix[i++];
+        }
+        else {
+            char top, op;
+            if (infix[i] == ')') {
+                while (stk.pop(op) && op != '(') {
+                    postfix[j++] = op;
+                }
+                i++;
+            }
+            else {
+                while (stk.peek(top) && op_pre_in(top) >= op_pre_out(infix[i])) {
+                    stk.pop(op);
+                    if (op != '(' && op != ')')
+                        postfix[j++] = op;
+                }
+                stk.push(infix[i++]);
+            }
+
+        }
+    }
+    char val;
+    while (stk.pop(val)) {
+        postfix[j++] = val;
+    }
+
+    postfix[j] = '\0';
+
+    return postfix;
+}
+
+int evaluate_postfix(char* postfix, size_t size) {
+    LinkedListStack<int> stk;
+    for (size_t i = 0; i < size; i++) {
+        if (is_operand(postfix[i])) {
+            stk.push(postfix[i] - '0');
+        }
+        else {
+            int right, left;
+            char op;
+            op = postfix[i];
+            stk.pop(right);
+            stk.pop(left);
+            int result = calc_value(right, left, op);
+            stk.push(result);
+        }
+    }
+
+    int total;
+    stk.pop(total);
+    cout << "Postfix Result = " << total << endl;
+    return total;
 }
