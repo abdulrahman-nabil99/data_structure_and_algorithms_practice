@@ -282,7 +282,6 @@ public:
     #pragma endregion
 };
 
-
 int main()
 {
     cout << "Queue!!\n";
