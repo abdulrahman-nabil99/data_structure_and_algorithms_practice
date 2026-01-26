@@ -295,7 +295,6 @@ int main()
     que.enqueue(14);
     que.dequeue(value);
     que.dequeue(value);
-    ArraySta
 
     que.display();
 }
