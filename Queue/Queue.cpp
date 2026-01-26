@@ -198,17 +198,104 @@ public:
 #pragma endregion
 };
 
+template<class T>
+struct Node
+{
+    Node<T>* next;
+    T value;
+};
+template<class T>
+class LinkedListQueue {
+private:
+    Node<T>* _head;
+    Node<T>* _rear;
+public:
+    #pragma region CTORS
+    LinkedListQueue() : _head(nullptr), _rear(nullptr) {}
+
+    ~LinkedListQueue() {
+        while (_head) {
+            Node<T>* temp = _head;
+            _head = _head->next;
+            delete temp;
+        }
+    }
+
+    LinkedListQueue(const LinkedListQueue&) = delete;
+    LinkedListQueue& operator=(const LinkedListQueue&) = delete;
+    #pragma endregion
+
+    #pragma region Methods
+    bool is_full() const {
+        Node<T>* item = new(std::nothrow) Node<T>;
+        if (!item) return true;
+        delete item;
+        return false;
+    }
+    bool is_empty() const {
+        return _head == nullptr;
+    }
+    bool enqueue(const T& item) {
+        Node<T>* node = new(std::nothrow) Node<T>;
+        if (!node) return false;
+        node->value = item;
+        node->next = nullptr;
+        if (!_head) {
+            _head = _rear = node;
+        }
+        else {
+            _rear->next = node;
+            _rear = _rear->next;
+        }
+        return true;
+    }
+    bool dequeue(T& outValue) {
+        if (is_empty())
+            return false;
+
+        Node<T>* front = _head;
+        outValue = front->value;
+        _head = _head->next;
+
+        if (!_head)
+            _rear = nullptr;
+
+        delete front;
+        return true;
+    }
+
+    void display() const {
+        if (is_empty()) {
+            std::cout << "Queue is empty\n";
+            return;
+        }
+
+        Node<T>* current = _head;
+        while (current) {
+            cout << current->value;
+            if (current->next)
+                cout << " -> ";
+            current = current->next;
+        }
+        cout << "\n";
+    }
+    #pragma endregion
+};
+
+
 int main()
 {
     cout << "Queue!!\n";
-    CircularQueue<int> que(3);
+    LinkedListQueue<int> que;
 
+    int value;
     que.enqueue(11);
     que.enqueue(12);
-    int value;
-    que.dequeue(value);
     que.enqueue(13);
     que.enqueue(14);
+    que.dequeue(value);
+    que.dequeue(value);
+    ArraySta
 
     que.display();
 }
