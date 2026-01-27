@@ -22,4 +22,15 @@
   <ItemGroup>
     <None Include="..\.gitignore" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queue.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTree.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
