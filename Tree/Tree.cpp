@@ -2,6 +2,7 @@
 #include "stack.h"
 #include "queue.h"
 #include "BinaryTree.h"
+#include "BinarySearchTree.h"
 
 
 
@@ -22,5 +23,19 @@ int main()
 
     std::cout << "Count " << b_tree.count() << std::endl;
     std::cout << "Level " << b_tree.height() << std::endl;
+
+    BinarySearchTree<int> bts;
+    bts.i_insert(12);
+    bts.i_insert(11);
+    bts.i_insert(13);
+    bts.i_insert(10);
+    bts.i_insert(8);
+    bts.i_insert(5);
+    bts.i_inorder();
+    int value;
+    if(bts.i_max(value))
+        std::cout << "Max " << value << std::endl;
+    if(bts.i_min(value))
+        std::cout << "Min " << value << std::endl;
 
 }
