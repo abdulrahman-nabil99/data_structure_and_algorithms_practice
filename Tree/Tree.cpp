@@ -19,4 +19,8 @@ int main()
     std::cout << "Inorder" << std::endl;
     b_tree.inorder();
     b_tree.i_inorder();
+
+    std::cout << "Count " << b_tree.count() << std::endl;
+    std::cout << "Level " << b_tree.height() << std::endl;
+
 }

@@ -21,6 +21,42 @@ private:
         delete node;
     }
 
+    void preorder(Node<T>* node) const {
+        if (!node) return;
+        std::cout << node->value << " ";
+        preorder(node->left);
+        preorder(node->right);
+    }
+
+    void inorder(Node<T>* node) const {
+        if (!node) return;
+        inorder(node->left);
+        std::cout << node->value << " ";
+        inorder(node->right);
+    }
+
+    void postorder(Node<T>* node) const {
+        if (!node) return;
+        postorder(node->left);
+        postorder(node->right);
+        std::cout << node->value << " ";
+    }
+
+    int count(Node<T>* node) const {
+        if (!node) return 0;
+        return count(node->left) + count(node->right) + 1;
+    }
+
+    int height(Node<T>* node) const {
+        int lh, rh;
+        if (!node) return 0;
+        lh = height(node->left);
+        rh = height(node->right);
+        if (lh > rh)
+            return lh + 1;
+        return rh + 1;
+    }
+
 public:
 #pragma region CTORS
     BinaryTree() {
@@ -79,13 +115,6 @@ public:
         std::cout << std::endl;
     }
 
-    void preorder(Node<T>* node) const {
-        if (!node) return;
-        std::cout << node->value << " ";
-        preorder(node->left);
-        preorder(node->right);
-    }
-
     void i_preorder() {
         if (!_root) return;
         LinkedListStack<Node<T>*> stk;
@@ -109,12 +138,6 @@ public:
         std::cout << std::endl;
     }
 
-    void inorder(Node<T>* node) const {
-        if (!node) return;
-        inorder(node->left);
-        std::cout << node->value << " ";
-        inorder(node->right);
-    }
 
     void i_inorder() {
         if (!_root) return;
@@ -140,12 +163,6 @@ public:
         std::cout << std::endl;
     }
 
-    void postorder(Node<T>* node) const {
-        if (!node) return;
-        postorder(node->left);
-        postorder(node->right);
-        std::cout << node->value << " ";
-    }
     void level_order() const {
         if (!_root) {
             std::cout << "Tree is empty\n";
@@ -166,6 +183,90 @@ public:
                 q.enqueue(current->right);
         }
         std::cout << std::endl;
+    }
+    int i_count() const {
+        if (!_root) return 0;
+
+        int nodesCount = 0;
+        LinkedListQueue<Node<T>*> q;
+
+        q.enqueue(_root);
+
+        Node<T>* current;
+        while (q.dequeue(current)) {
+            nodesCount++;
+
+            if (current->left)
+                q.enqueue(current->left);
+
+            if (current->right)
+                q.enqueue(current->right);
+        }
+
+        return nodesCount;
+    }
+
+    int count() const{
+        if (!_root) return 0;
+        int nodes_count = count(_root);
+
+        return nodes_count;
+
+    }
+
+    int height() const {
+        if (!_root) return 0;
+        int tree_level = height(_root);
+        return tree_level;
+    }
+
+    int i_leaf_nodes() const {
+        if (!_root) return 0;
+
+        int nodesCount = 0;
+        LinkedListQueue<Node<T>*> q;
+
+        q.enqueue(_root);
+
+        Node<T>* current;
+        while (q.dequeue(current)) {
+            if (!current->left && !current->right) {
+                nodesCount++;
+                continue;
+            }
+
+            if (current->left)
+                q.enqueue(current->left);
+
+            if (current->right)
+                q.enqueue(current->right);
+        }
+
+        return nodesCount;
+    }
+
+    int i_internal_nodes() const {
+        if (!_root) return 0;
+
+        int nodesCount = 0;
+        LinkedListQueue<Node<T>*> q;
+
+        q.enqueue(_root);
+
+        Node<T>* current;
+        while (q.dequeue(current)) {
+            if (current->right || current->left) {
+                nodesCount++;
+            }
+
+            if (current->left)
+                q.enqueue(current->left);
+
+            if (current->right)
+                q.enqueue(current->right);
+        }
+
+        return nodesCount;
     }
 #pragma endregion
 
