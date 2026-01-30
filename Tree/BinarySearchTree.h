@@ -158,6 +158,55 @@ public:
         return true;
     }
 
+    bool i_remove(const T value) {
+        Node<T>* current = _root;
+        Node<T>* parent = nullptr;
+
+        while (current && current->value != value) {
+            parent = current;
+            current = (value < current->value) ? current->left : current->right;
+        }
+
+        if (!current) return false;        
+
+        if (!current->left || !current->right) {
+            Node<T>* child = current->left ? current->left : current->right;
+            if (!parent) {
+                _root = child;
+            }
+            else if (parent->left == current) {
+                parent->left = child;
+            }
+            else {
+                parent->right = child;
+            }
+            delete current;
+            return true;
+        }
+
+        Node<T>* successorParent = current;
+        Node<T>* successor = current->right;
+
+        while (successor->left) {
+            successorParent = successor;
+            successor = successor->left;
+        }
+
+        current->value = successor->value;
+
+        Node<T>* successorChild = successor->right;
+
+        if (successorParent->left == successor) {
+            successorParent->left = successorChild;
+        }
+        else {
+            successorParent->right = successorChild;
+        }
+
+        delete successor;
+        return true;
+    }
+
     bool i_search(const T value, T& outValue) const {
         Node<T>* current = _root;
 
