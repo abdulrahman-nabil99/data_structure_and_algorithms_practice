@@ -15,4 +15,8 @@ int main()
     h.insert(61);
     h.display();
     h.displayTree();
+
+    h.remove(61);
+    h.display();
+    h.displayTree();
 }
