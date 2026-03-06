@@ -38,6 +38,22 @@ void insertion_sort(int* array, size_t size)
     }
 }
 
+void selection_sort(int* array, size_t size)
+{
+    for (size_t i = 0; i < size - 1; i++)
+    {
+        size_t minIndex = i;
+
+        for (size_t j = i + 1; j < size; j++)
+        {
+            if (array[j] < array[minIndex])
+                minIndex = j;
+        }
+
+        std::swap(array[i], array[minIndex]);
+    }
+}
+
 void print_array(int* arr, size_t size)
 {
     std::cout << "[";
@@ -66,13 +82,14 @@ void fill_with_random(int* arr, size_t size, int min, int max)
 
 int main()
 {
-    size_t size = 22;
+    size_t size = 202;
     int* nums = new int[size];
 
     fill_with_random(nums, size, 0, 100);
     print_array(nums, size);
     //bubble_sort(nums, size);
-    insertion_sort(nums, size);    
+    //insertion_sort(nums, size);    
+    selection_sort(nums, size);    
     print_array(nums, size);
 
     delete[] nums;
