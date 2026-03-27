@@ -86,6 +86,60 @@ void quick_sort(int* array, size_t size)
     quick_sort_internal(array, 0, static_cast<int>(size - 1));
 }
 
+void merge(int* array, int* temp, size_t left, size_t mid, size_t right)
+{
+    size_t i = left, j = mid, k = left;
+
+    while (i < mid && j < right)
+        temp[k++] = (array[i] <= array[j]) ? array[i++] : array[j++];
+
+    while (i < mid)   temp[k++] = array[i++];
+    while (j < right) temp[k++] = array[j++];
+
+    for (i = left; i < right; i++)
+        array[i] = temp[i];
+}
+
+
+void i_merge_sort(int* array, size_t size)
+{
+    if (size < 2)
+        return;
+
+    int* temp = new int[size];
+
+    for (size_t width = 1; width < size; width *= 2)
+    {
+        for (size_t i = 0; i < size; i += 2 * width)
+        {
+            size_t left = i;
+            size_t mid = i + width;
+            size_t right = i + 2 * width;
+
+            if (mid > size)
+                mid = size;
+
+            if (right > size)
+                right = size;
+
+            merge(array, temp, left, mid, right);
+        }
+    }
+
+    delete[] temp;
+}
+
+void r_merge_sort(int* array, int* temp, size_t low, size_t high)
+{
+    if (high - low < 2) return;
+
+    size_t mid = low + (high - low) / 2;
+
+    r_merge_sort(array, temp, low, mid);
+    r_merge_sort(array, temp, mid, high);
+    merge(array, temp, low, mid, high);
+}
+
 void print_array(int* arr, size_t size)
 {
     std::cout << "[";
@@ -120,9 +174,13 @@ int main()
     fill_with_random(nums, size, 0, 100);
     print_array(nums, size);
     //bubble_sort(nums, size);
-    //insertion_sort(nums, size);    
-    //selection_sort(nums, size);    
-    quick_sort(nums, size);    
+    //insertion_sort(nums, size);
+    //selection_sort(nums, size);
+    //quick_sort(nums, size);
+    //i_merge_sort(nums, size);
+    int* temp = new int[size];
+    r_merge_sort(nums, temp, 0, size);
+    delete[] temp;
     print_array(nums, size);
 
     delete[] nums;
