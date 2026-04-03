@@ -140,6 +140,34 @@ void r_merge_sort(int* array, int* temp, size_t low, size_t high)
     merge(array, temp, low, mid, high);
 }
 
+void count_sort(int* array, size_t size) {
+    if (size == 0) return;
+
+    // Find min and max values
+    int min = array[0], max = array[0];
+    for (size_t i = 1; i < size; i++) {
+        if (array[i] < min) min = array[i];
+        if (array[i] > max) max = array[i];
+    }
+
+    // Allocate and zero-initialize count array
+    size_t range = max - min + 1;
+    int* count = new int[range]();
+
+    // Count occurrences
+    for (size_t i = 0; i < size; i++)
+        count[array[i] - min]++;
+
+    // Reconstruct sorted array
+    size_t idx = 0;
+    for (size_t i = 0; i < range; i++)
+        while (count[i]-- > 0)
+            array[idx++] = i + min;
+
+    delete[] count;
+}
+
+
 void print_array(int* arr, size_t size)
 {
     std::cout << "[";
@@ -177,10 +205,13 @@ int main()
     //insertion_sort(nums, size);
     //selection_sort(nums, size);
     //quick_sort(nums, size);
+    
     //i_merge_sort(nums, size);
-    int* temp = new int[size];
-    r_merge_sort(nums, temp, 0, size);
-    delete[] temp;
+    //int* temp = new int[size];
+    //r_merge_sort(nums, temp, 0, size);
+    //delete[] temp;
+
+    count_sort(nums, size);
     print_array(nums, size);
 
     delete[] nums;
