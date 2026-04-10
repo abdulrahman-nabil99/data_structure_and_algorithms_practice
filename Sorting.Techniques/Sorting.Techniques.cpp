@@ -167,6 +167,94 @@ void count_sort(int* array, size_t size) {
     delete[] count;
 }
 
+void sort_positive(int* arr, size_t n) {
+    if (n == 0) return;
+
+    int max = arr[0];
+    for (size_t i = 1; i < n; i++)
+        if (arr[i] > max) max = arr[i];
+
+    int* output = new int[n];
+
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+        int count[10] = {};
+
+        for (size_t i = 0; i < n; i++)
+            count[(arr[i] / exp) % 10]++;
+
+        for (int i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+
+        for (int i = (int)n - 1; i >= 0; i--)
+            output[--count[(arr[i] / exp) % 10]] = arr[i];
+
+        for (size_t i = 0; i < n; i++)
+            arr[i] = output[i];
+    }
+
+    delete[] output;
+}
+
+void radix_sort(int* array, size_t size) {
+    if (size == 0) return;
+
+    size_t neg_count = 0;
+    for (size_t i = 0; i < size; i++)
+        if (array[i] < 0) neg_count++;
+
+    size_t pos_count = size - neg_count;
+
+    int* negatives = new int[neg_count];
+    int* positives = new int[pos_count];
+
+    size_t ni = 0, pi = 0;
+
+    for (size_t i = 0; i < size; i++) {
+        if (array[i] < 0)
+            negatives[ni++] = -array[i];
+        else
+            positives[pi++] = array[i];
+    }
+
+    sort_positive(negatives, neg_count);
+    sort_positive(positives, pos_count);
+
+    // merge back
+    size_t idx = 0;
+
+    for (size_t i = 0; i < neg_count; i++)
+        array[idx++] = -negatives[neg_count - 1 - i];
+
+    for (size_t i = 0; i < pos_count; i++)
+        array[idx++] = positives[i];
+
+    delete[] negatives;
+    delete[] positives;
+}
+
+void shell_sort(int* array, size_t size)
+{
+    if (size < 2)
+        return;
+
+    // Start with a big gap, then reduce the gap
+    for (size_t gap = size / 2; gap > 0; gap /= 2)
+    {
+        // Perform gapped insertion sort
+        for (size_t i = gap; i < size; i++)
+        {
+            int temp = array[i];
+            size_t j;
+
+            for (j = i; j >= gap && array[j - gap] > temp; j -= gap)
+            {
+                array[j] = array[j - gap];
+            }
+
+            array[j] = temp;
+        }
+    }
+}
 
 void print_array(int* arr, size_t size)
 {
@@ -199,7 +287,7 @@ int main()
     size_t size = 11;
     int* nums = new int[size];
 
-    fill_with_random(nums, size, 0, 100);
+    fill_with_random(nums, size, 0, 10110);
     print_array(nums, size);
     //bubble_sort(nums, size);
     //insertion_sort(nums, size);
@@ -211,7 +299,9 @@ int main()
     //r_merge_sort(nums, temp, 0, size);
     //delete[] temp;
 
-    count_sort(nums, size);
+    //count_sort(nums, size);
+    //radix_sort(nums, size);
+    shell_sort(nums, size);
     print_array(nums, size);
 
     delete[] nums;
