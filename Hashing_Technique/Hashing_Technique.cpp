@@ -10,7 +10,7 @@ int get_linear_probing_hash_index(int value) {
     return value % LINEAR_PROBING_TABLE_SIZE;
 }
 
-int probe(int* hashTable, int value) {
+int linear_probe(int* hashTable, int value) {
     int index = get_linear_probing_hash_index(value);
 
     int startIndex = index;
@@ -37,7 +37,7 @@ bool chain_hash(LinkedList<int>* hash_table, int value) {
 }
 
 bool linear_probing_hash(int* hashTable, int value) {
-    int index = probe(hashTable, value);
+    int index = linear_probe(hashTable, value);
 
     if (index == -1)
         return false;
