@@ -1,13 +1,14 @@
 #include <iostream>
 #include "linked_list.h"
-constexpr int LINEAR_PROBING_TABLE_SIZE = 10;
+constexpr int TABLE_SIZE = 10;
+constexpr int DOUBLE_HASHING_PRIIME = 7;    
 
 int get_chain_hash_index(int value) {
-    return value % 10;
+    return value % TABLE_SIZE;
 }
 
 int get_linear_probing_hash_index(int value) {
-    return value % LINEAR_PROBING_TABLE_SIZE;
+    return value % TABLE_SIZE;
 }
 
 int linear_probe(int* hashTable, int value) {
@@ -16,7 +17,7 @@ int linear_probe(int* hashTable, int value) {
     int startIndex = index;
 
     while (hashTable[index] != -1) {
-        index = (index + 1) % LINEAR_PROBING_TABLE_SIZE;
+        index = (index + 1) % TABLE_SIZE;
 
         if (index == startIndex)
             return -1;
@@ -31,8 +32,8 @@ int quadratic_probe(int* hashTable, int value) {
 
     int index;
 
-    while (i < LINEAR_PROBING_TABLE_SIZE) {
-        index = (h + i * i) % LINEAR_PROBING_TABLE_SIZE;
+    while (i < TABLE_SIZE) {
+        index = (h + i * i) % TABLE_SIZE;
 
         if (hashTable[index] == -1)
             return index;
@@ -64,6 +65,30 @@ bool linear_probing_hash(int* hashTable, int value) {
     return true;
 }
 
+int double_hash_one(int value) {
+    return value % TABLE_SIZE;
+}
+
+int double_hash_two(int value) {
+    return DOUBLE_HASHING_PRIIME - (value % DOUBLE_HASHING_PRIIME);
+}
+
+bool double_hash(int* hashTable, int value) {
+    int index = double_hash_one(value);
+    int step = double_hash_two(value);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        int newIndex = (index + i * step) % TABLE_SIZE;
+
+        if (hashTable[newIndex] == -1) {
+            hashTable[newIndex] = value;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int main()
 {
     #pragma region chain_hash
@@ -90,8 +115,8 @@ int main()
 
     #pragma region linear_probing_hash
     std::cout << "\n##### Linear Probing Hash #####" << std::endl;
-    int* linearProbingHashTable = new int[LINEAR_PROBING_TABLE_SIZE]();
-    for (int i = 0; i < LINEAR_PROBING_TABLE_SIZE; i++)
+    int* linearProbingHashTable = new int[TABLE_SIZE];
+    for (int i = 0; i < TABLE_SIZE; i++)
         linearProbingHashTable[i] = -1;
 
     linear_probing_hash(linearProbingHashTable, 3);
@@ -99,12 +124,27 @@ int main()
     linear_probing_hash(linearProbingHashTable, 9);
     linear_probing_hash(linearProbingHashTable, 19);
 
-    for (int i = 0; i < LINEAR_PROBING_TABLE_SIZE; i++) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
         if (linearProbingHashTable[i]!= -1)
             std::cout << "Bucket " << i << ": " << linearProbingHashTable[i]<< std::endl;
     }
-
     #pragma endregion
 
+#pragma region linear_probing_hash
+    std::cout << "\n##### Double Hashing #####" << std::endl;
+    int* doubleHashingTable = new int[TABLE_SIZE];
+    for (int i = 0; i < TABLE_SIZE; i++)
+        doubleHashingTable[i] = -1;
+
+    double_hash(doubleHashingTable, 3);
+    double_hash(doubleHashingTable, 7);
+    double_hash(doubleHashingTable, 9);
+    double_hash(doubleHashingTable, 19);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (doubleHashingTable[i] != -1)
+            std::cout << "Bucket " << i << ": " << doubleHashingTable[i] << std::endl;
+    }
+#pragma endregion
     return 0;
 }
