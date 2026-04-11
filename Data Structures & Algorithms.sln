@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Section 1  - Essential concepts", "Data Structures & Algorithms.vcxproj", "{18840897-3088-4B26-90DA-08A9EAB175BE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Section_1_Essential_concepts", "Data Structures & Algorithms.vcxproj", "{18840897-3088-4B26-90DA-08A9EAB175BE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Recursion", "Recursion\Recursion.vcxproj", "{FD2F776F-816D-4C4D-B567-D233087127C6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Arrays Representations", "Arrays Representations\Arrays Representations.vcxproj", "{43BDD909-B526-4AB9-AF69-27C722401BF7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Arrays_Representations", "Arrays Representations\Arrays Representations.vcxproj", "{43BDD909-B526-4AB9-AF69-27C722401BF7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "String", "String\String.vcxproj", "{53907C09-7D9F-40EF-BA29-319ECEFF14FD}"
 EndProject
@@ -21,7 +21,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tree", "Tree\Tree.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heap", "heap\heap.vcxproj", "{7AA4A4C1-B052-45CE-9608-BFC1F3877C04}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sorting.Techniques", "Sorting.Techniques\Sorting.Techniques.vcxproj", "{62DC0929-F3C2-427C-86C0-726E21ACEC9A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sorting_Techniques", "Sorting.Techniques\Sorting.Techniques.vcxproj", "{62DC0929-F3C2-427C-86C0-726E21ACEC9A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hashing_Technique", "..\Hashing_Technique\Hashing_Technique.vcxproj", "{9107646E-AC44-4D16-9C4F-DE73BFFC0101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,14 @@ Global
 		{62DC0929-F3C2-427C-86C0-726E21ACEC9A}.Release|x64.Build.0 = Release|x64
 		{62DC0929-F3C2-427C-86C0-726E21ACEC9A}.Release|x86.ActiveCfg = Release|Win32
 		{62DC0929-F3C2-427C-86C0-726E21ACEC9A}.Release|x86.Build.0 = Release|Win32
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Debug|x64.ActiveCfg = Debug|x64
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Debug|x64.Build.0 = Debug|x64
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Debug|x86.ActiveCfg = Debug|Win32
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Debug|x86.Build.0 = Debug|Win32
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Release|x64.ActiveCfg = Release|x64
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Release|x64.Build.0 = Release|x64
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Release|x86.ActiveCfg = Release|Win32
+		{9107646E-AC44-4D16-9C4F-DE73BFFC0101}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
