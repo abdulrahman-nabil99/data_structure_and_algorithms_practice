@@ -24,7 +24,7 @@
     <ProjectGuid>{18840897-3088-4b26-90da-08a9eab175be}</ProjectGuid>
     <RootNamespace>DataStructuresAlgorithms</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Section 1  - Essential concepts</ProjectName>
+    <ProjectName>Section_1_Essential_concepts</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

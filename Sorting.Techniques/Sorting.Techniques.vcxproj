@@ -24,6 +24,7 @@
     <ProjectGuid>{62dc0929-f3c2-427c-86c0-726e21acec9a}</ProjectGuid>
     <RootNamespace>SortingTechniques</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Sorting_Techniques</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
