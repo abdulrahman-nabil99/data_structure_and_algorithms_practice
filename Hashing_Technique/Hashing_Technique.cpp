@@ -25,6 +25,24 @@ int linear_probe(int* hashTable, int value) {
     return index;
 }
 
+int quadratic_probe(int* hashTable, int value) {
+    int h = get_linear_probing_hash_index(value);
+    int i = 0;
+
+    int index;
+
+    while (i < LINEAR_PROBING_TABLE_SIZE) {
+        index = (h + i * i) % LINEAR_PROBING_TABLE_SIZE;
+
+        if (hashTable[index] == -1)
+            return index;
+
+        i++;
+    }
+
+    return -1;
+}
+
 bool chain_hash(LinkedList<int>* hash_table, int value) {
     if (hash_table == nullptr)
         return false;
