@@ -1,6 +1,6 @@
 #include <iostream>
 #include "linked_list.h"
-constexpr int TABLE_SIZE = 10;
+constexpr int TABLE_SIZE = 11;
 constexpr int DOUBLE_HASHING_PRIIME = 7;    
 
 int get_chain_hash_index(int value) {
@@ -93,7 +93,7 @@ int main()
 {
     #pragma region chain_hash
     std::cout << "##### Chain Hash #####" << std::endl;
-    LinkedList<int>* lists = new LinkedList<int>[10];
+    LinkedList<int>* lists = new LinkedList<int>[TABLE_SIZE];
 
     chain_hash(lists, 15);
     chain_hash(lists, 25);
@@ -103,7 +103,7 @@ int main()
     chain_hash(lists, 12);
     chain_hash(lists, 1223);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
         if (lists[i].count() > 0) {
             std::cout << "Bucket " << i << ": ";
             lists[i].display();
